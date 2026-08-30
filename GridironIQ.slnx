@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GridironIQ.Api/GridironIQ.Api.csproj" />
+    <Project Path="src/GridironIQ.Core/GridironIQ.Core.csproj" />
+    <Project Path="src/GridironIQ.Infrastructure/GridironIQ.Infrastructure.csproj" />
+    <Project Path="src/GridironIQ.Services/GridironIQ.Services.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GridironIQ.Api.Tests/GridironIQ.Api.Tests.csproj" />
+    <Project Path="tests/GridironIQ.Services.Tests/GridironIQ.Services.Tests.csproj" />
+  </Folder>
+</Solution>
