@@ -132,8 +132,6 @@ cd GridironIQ
 # Restore dependencies
 dotnet restore
 
-# Update database connection string in appsettings.json
-
 # Run database migrations
 dotnet ef database update --project src/GridironIQ.Infrastructure
 
@@ -150,7 +148,6 @@ This project is designed as a learning platform to develop expertise in:
 - Database design and Entity Framework Core
 - Background job processing
 - Async/await patterns and performance optimization
-- Clean Architecture and SOLID principles
 - Integration with external APIs
 - Testing strategies (unit, integration, end-to-end)
 

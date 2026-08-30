@@ -47,9 +47,21 @@ public class PlayersController : ControllerBase
     };
 
     [HttpGet]
-    public ActionResult<IEnumerable<Player>> GetAll()
+    public ActionResult<IEnumerable<Player>> GetAll(string? position = null, string? team = null)
     {
-        return Ok(Players);
+        // Query-string filtering - filter for position and/or team, case insensitive
+        IEnumerable<Player> result = Players;
+        if (position != null)
+        {
+            result = result.Where(p => p.Position.Equals(position, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (team != null)
+        {
+            result = result.Where(p => p.Team.Equals(team, StringComparison.OrdinalIgnoreCase));
+        }
+
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
