@@ -1,5 +1,7 @@
 using GridironIQ.Core.Entities;
+using GridironIQ.Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GridironIQ.Api.Controllers;
 
@@ -7,67 +9,38 @@ namespace GridironIQ.Api.Controllers;
 [Route("api/[controller]")]
 public class PlayersController : ControllerBase
 {
-    private static readonly List<Player> Players = new()
+    private readonly ApplicationDbContext _context;
+
+    public PlayersController(ApplicationDbContext context)
     {
-        new Player
-        {
-            Id = 1,
-            Name = "Christian McCaffrey",
-            Team = "SF",
-            Position = "RB"
-        },
-        new Player
-        {
-            Id = 2,
-            Name = "Trevor Lawrence",
-            Team = "JAX",
-            Position = "QB"
-        },
-        new Player
-        {
-            Id = 3,
-            Name = "DeVonta Smith",
-            Team = "PHI",
-            Position = "WR"
-        },
-        new Player
-        {
-            Id = 4,
-            Name = "Cooper DeJean",
-            Team = "PHI",
-            Position = "CB"
-        },
-        new Player
-        {
-            Id = 5,
-            Name = "Jalen Carter",
-            Team = "PHI",
-            Position = "DT"
-        }
-    };
+        _context = context;
+    }
+
+    // GetAll and GetById go below, using _context instead of Players
+
 
     [HttpGet]
-    public ActionResult<IEnumerable<Player>> GetAll(string? position = null, string? team = null)
+    public async Task<ActionResult<IEnumerable<Player>>> GetAll(string? position = null, string? team = null)
     {
-        // Query-string filtering - filter for position and/or team, case insensitive
-        IEnumerable<Player> result = Players;
+        IQueryable<Player> query = _context.Players;
+
         if (position != null)
         {
-            result = result.Where(p => p.Position.Equals(position, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(p => p.Position.ToLower() == position.ToLower());
         }
 
         if (team != null)
         {
-            result = result.Where(p => p.Team.Equals(team, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(p => p.Team.ToLower() == team.ToLower());
         }
 
-        return Ok(result);
+        return Ok(await query.ToListAsync());
     }
 
     [HttpGet("{id}")]
-    public ActionResult<Player> GetById(int id)
+    public async Task<ActionResult<Player>> GetById(int id)
     {
-        var player = Players.FirstOrDefault(p => p.Id == id);
+        var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == id);
         if (player is null)
         {
             return NotFound();
