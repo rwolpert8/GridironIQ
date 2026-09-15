@@ -7,4 +7,5 @@ public class Projection
     public int Season { get; set; }
     public int Week { get; set; }
     public double ProjectedPoints { get; set; }
+    public Player Player { get; set; } = null!;
 }

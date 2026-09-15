@@ -12,4 +12,5 @@ public class GameLog
     public int RushingYards { get; set; }
     public int ReceivingYards { get; set; }
     public int Touchdowns { get; set; }
+    public Player Player { get; set; } = null!;
 }
